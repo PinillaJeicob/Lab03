@@ -1,4 +1,4 @@
-//importando las librerias necesarias para crear los buttons
+//Layout para la ventana mostrando los botones  y añadiendole el action listener para darles una función(de momento una predeterminada de netbeans)
 import javax.swing.*; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +19,30 @@ public class Cronometro extends JFrame {
     configuraralarmaButton = new JButton ("Configurar alarma");
     
     
-   
+    setLayout(new java.awt.GridLayout(4,1));
+    add(tiempoLabel);
+    add(iniciarButton);
+    add(detenerButton);
+    add(configuraralarmaButton);
+    
+        iniciarButton.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+        });
+        detenerButton.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+        });
+        configuraralarmaButton.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+        });
+    };
          
 }
