@@ -1,0 +1,24 @@
+//importando las librerias necesarias para crear los buttons
+import javax.swing.*; 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Cronometro extends JFrame {
+    private JLabel tiempoLabel; 
+    private JButton iniciarButton,detenerButton,configuraralarmaButton;
+    private Timer cronometro;
+    private int Segundos=0;
+    private int minutos=0;
+    private int horas=0;
+    private int alarmaMinutos=0;
+    
+    public Cronometro(){
+    tiempoLabel = new JLabel("00:00:00", JLabel.CENTER);
+    iniciarButton = new JButton ("iniciar");
+    detenerButton = new JButton ("detener");
+    configuraralarmaButton = new JButton ("Configurar alarma");
+    
+    
+   
+         
+}
