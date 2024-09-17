@@ -1,0 +1,25 @@
+package com.mycompany.animacionconcontrol;
+declaracion variables correspondientes en la clase//
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AnimacionConControl extends JFrame {
+    private final JLabel imagenLabel;
+    private final JSlider velocidadSlider;
+    private final Timer temporizador;
+    private int indiceImagen = 0;
+    private final ImageIcon[] imagenes;
+
+    public AnimacionConControl() {
+        
+        imagenes = new ImageIcon[8];
+        for (int i = 0; i < imagenes.length; i++) {
+            imagenes[i] = new ImageIcon("src/main/resources/man" + (i + 1) + ".png"); 
+        }
+
+       
+        imagenLabel = new JLabel(imagenes[0], JLabel.CENTER);
+
+}
