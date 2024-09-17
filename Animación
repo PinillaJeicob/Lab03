@@ -1,0 +1,67 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AnimacionConControl extends JFrame {
+    private JLabel imagenLabel;
+    private JSlider velocidadSlider;
+    private Timer temporizador;
+    private int indiceImagen = 0;
+    private ImageIcon[] imagenes;
+
+    public AnimacionConControl() {
+        
+        imagenes = new ImageIcon[5];
+        for (int i = 0; i < imagenes.length; i++) {
+            imagenes[i] = new ImageIcon("Perrito" + (i + 1) + ".png"); 
+        }
+
+       
+        imagenLabel = new JLabel(imagenes[0], JLabel.CENTER);
+
+        
+        velocidadSlider = new JSlider(JSlider.HORIZONTAL, 100, 2000, 1000);
+        velocidadSlider.setMajorTickSpacing(500);
+        velocidadSlider.setMinorTickSpacing(100);
+        velocidadSlider.setPaintTicks(true);
+        velocidadSlider.setPaintLabels(true);
+
+        
+        velocidadSlider.addChangeListener(e -> ajustarVelocidad());
+
+      
+        temporizador = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cambiarImagen();
+            }
+        });
+        temporizador.start(); // Iniciar la animación
+
+ 
+        setLayout(new BorderLayout());
+        add(imagenLabel, BorderLayout.CENTER);
+        add(velocidadSlider, BorderLayout.SOUTH);
+
+        setSize(400, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+   
+    private void cambiarImagen() {
+        indiceImagen = (indiceImagen + 1) % imagenes.length; // Rotar entre las imágenes
+        imagenLabel.setIcon(imagenes[indiceImagen]);
+    }
+
+   
+    private void ajustarVelocidad() {
+        int velocidad = velocidadSlider.getValue(); // Obtener el valor del control deslizante
+        temporizador.setDelay(velocidad); // Cambiar la velocidad del temporizador
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(AnimacionConControl::new);
+    }
+}
