@@ -1,48 +1,99 @@
-//Layout para la ventana mostrando los botones  y añadiendole el action listener para darles una función(de momento una predeterminada de netbeans)
-import javax.swing.*; 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Cronometro extends JFrame {
-    private JLabel tiempoLabel; 
-    private JButton iniciarButton,detenerButton,configuraralarmaButton;
+    private JLabel tiempoLabel;
+    private JButton iniciarButton, detenerButton, configurarAlarmaButton;
     private Timer cronometro;
-    private int Segundos=0;
-    private int minutos=0;
-    private int horas=0;
-    private int alarmaMinutos=0;
-    
-    public Cronometro(){
-    tiempoLabel = new JLabel("00:00:00", JLabel.CENTER);
-    iniciarButton = new JButton ("iniciar");
-    detenerButton = new JButton ("detener");
-    configuraralarmaButton = new JButton ("Configurar alarma");
-    
-    
-    setLayout(new java.awt.GridLayout(4,1));
-    add(tiempoLabel);
-    add(iniciarButton);
-    add(detenerButton);
-    add(configuraralarmaButton);
-    
-        iniciarButton.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+    private int segundos = 0;
+    private int minutos = 0;
+    private int horas = 0;
+    private int alarmaMinutos = 0;
+    private boolean alarmaActiva = false;
+
+    public Cronometro() {
+        tiempoLabel = new JLabel("00:00:00", JLabel.CENTER);
+        iniciarButton = new JButton("Iniciar");
+        detenerButton = new JButton("Detener");
+        configurarAlarmaButton = new JButton("Configurar Alarma");
+
+        setLayout(new java.awt.GridLayout(4, 1));
+        add(tiempoLabel);
+        add(iniciarButton);
+        add(detenerButton);
+        add(configurarAlarmaButton);
+
+        iniciarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                iniciarCronometro();
+            }
         });
-        detenerButton.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+
+        detenerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detenerCronometro();
+            }
         });
-        configuraralarmaButton.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-        }
+
+        configurarAlarmaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                configurarAlarma();
+            }
         });
-    };
-         
+
+        cronometro = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarTiempo();
+            }
+        });
+
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    private void iniciarCronometro() {
+        cronometro.start();
+    }
+
+    private void detenerCronometro() {
+        cronometro.stop();
+    }
+
+    private void configurarAlarma() {
+        String input = JOptionPane.showInputDialog("Configurar alarma (minutos):");
+        try {
+            alarmaMinutos = Integer.parseInt(input);
+            alarmaActiva = true;
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un número válido.");
+        }
+    }
+
+    private void actualizarTiempo() {
+        segundos++;
+        if (segundos == 60) {
+            segundos = 0;
+            minutos++;
+        }
+        if (minutos == 60) {
+            minutos = 0;
+            horas++;
+        }
+
+        tiempoLabel.setText(String.format("%02d:%02d:%02d", horas, minutos, segundos));
+
+        if (alarmaActiva && minutos == alarmaMinutos && segundos % 10 == 0) {
+            Toolkit.getDefaultToolkit().beep();  // Sonido de alarma
+        }
+    }
+
+    public static void main(String[] args) {
+        new Cronometro();
+    }
 }
