@@ -1,5 +1,5 @@
 package com.mycompany.animacionconcontrol;
-añadido slider que maneja la velocidad del cambio de imagenes para generar la animación+ el temporizador con la funcion de cambio de imagenes//
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,34 +13,57 @@ public class AnimacionConControl extends JFrame {
     private final ImageIcon[] imagenes;
 
     public AnimacionConControl() {
-        
+       
         imagenes = new ImageIcon[8];
         for (int i = 0; i < imagenes.length; i++) {
-            imagenes[i] = new ImageIcon("src/main/resources/man" + (i + 1) + ".png"); 
+            imagenes[i] = new ImageIcon("src/main/resources/man" + (i + 1) + ".png");
         }
 
        
         imagenLabel = new JLabel(imagenes[0], JLabel.CENTER);
 
-        
+       
         velocidadSlider = new JSlider(JSlider.HORIZONTAL, 10, 100, 40);
         velocidadSlider.setMajorTickSpacing(50);
         velocidadSlider.setMinorTickSpacing(10);
         velocidadSlider.setPaintTicks(true);
         velocidadSlider.setPaintLabels(true);
 
-        
+       
         velocidadSlider.addChangeListener(e -> ajustarVelocidad());
 
-      
+     
         temporizador = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cambiarImagen();
             }
         });
-        temporizador.start(); 
+        temporizador.start();
 
  
-     
+        setLayout(new BorderLayout());
+        add(imagenLabel, BorderLayout.CENTER);
+        add(velocidadSlider, BorderLayout.SOUTH);
+
+        setSize(400, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+   
+    private void cambiarImagen() {
+        indiceImagen = (indiceImagen + 1) % imagenes.length; // Rotar entre las imágenes
+        imagenLabel.setIcon(imagenes[indiceImagen]);
+    }
+
+   
+    private void ajustarVelocidad() {
+        int velocidad = velocidadSlider.getValue(); // Obtener el valor del control deslizante
+        temporizador.setDelay(velocidad); // Cambiar la velocidad del temporizador
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(AnimacionConControl::new);
+    }
 }
